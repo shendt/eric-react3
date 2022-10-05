@@ -24,6 +24,7 @@ export default function TransactionTable(props) {
     }
   };
 
+  //im sure its not that efficient, but we set both copy and txns to make sure that the transactions are still sorted after the filter is reset
   const sort = ()=>{
     //console.log('hi');
     setTxnsCopy([...txnsCopy].sort((t1,t2) => t1.amount-t2.amount))
