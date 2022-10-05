@@ -1,22 +1,35 @@
 import React, { useState } from 'react';
 
 export default function TransactionTable(props) {
+  const [txnsCopy, setTxnsCopy] = useState([...props.txns])
   const [txns, setTxns] = useState([...props.txns]);
   console.log(txns);
   const [filter, setFilter] = useState('');
+  
 
-  const sort = () => {
+  const handleFilter = () => {
     console.log('hi');
     if (filter) {
       setTxns(
-        props.txns.filter((t) => {
+        txnsCopy.filter((t) => {
           //console.log(t.date)
           //console.log(filter)
           return t.date === filter;
         })
       );
     }
+    else{
+      setTxns(txnsCopy)
+    }
   };
+
+  const sort = ()=>{
+    console.log('hi');
+    setTxnsCopy(txnsCopy.sort((t1,t2) => t1.amount-t2.amount))
+    console.log(txns.sort((t1,t2) => t1.amount-t2.amount))
+    setTxns(txns.sort((t1,t2) => t1.amount-t2.amount))
+    console.log(txns)
+  }
 
   return (
     <div className="layout-column align-items-center mt-50">
@@ -27,7 +40,7 @@ export default function TransactionTable(props) {
           type="date"
           onChange={(e) => setFilter(e.target.value)}
         />
-        <button className="small" onClick={sort}>
+        <button className="small" onClick={handleFilter}>
           Filter
         </button>
       </section>
@@ -39,7 +52,7 @@ export default function TransactionTable(props) {
               <th className="table-header">Date</th>
               <th className="table-header">Description</th>
               <th className="table-header">Type</th>
-              <th className="table-header">
+              <th className="table-header" onClick={sort}>
                 <span id="amount">Amount ($)</span>
               </th>
               <th className="table-header">Available Balance</th>
@@ -48,8 +61,8 @@ export default function TransactionTable(props) {
           <tbody>
             {txns.map((t, i) => {
               return (
-                <tr key={i}>
-                  {/*fix later*/}
+                <tr key={t.description}>
+                  {/*fix key later*/}
                   <td>{t.date}</td>
                   <td>{t.description}</td>
                   <td>{t.type === 1 ? 'Debit' : 'Credit'}</td>
