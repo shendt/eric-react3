@@ -63,7 +63,6 @@ export default function TransactionTable(props) {
             {txns.map((t, i) => {
               return (
                 <tr key={t.key}>
-                  {/*fix key later*/}
                   <td>{t.date}</td>
                   <td>{t.description}</td>
                   <td>{t.type === 1 ? 'Debit' : 'Credit'}</td>
