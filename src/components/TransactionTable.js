@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import {v4 as uuid} from 'uuid';
 
 export default function TransactionTable(props) {
-  const [txnsCopy, setTxnsCopy] = useState([...props.txns])
-  const [txns, setTxns] = useState([...props.txns]);
+  const [txnsCopy, setTxnsCopy] = useState(props.txns.map(t=>{return {...t, key:uuid()}}))
+  const [txns, setTxns] = useState([...txnsCopy]);
   console.log(txns);
   const [filter, setFilter] = useState('');
   
@@ -24,11 +25,11 @@ export default function TransactionTable(props) {
   };
 
   const sort = ()=>{
-    console.log('hi');
-    setTxnsCopy(txnsCopy.sort((t1,t2) => t1.amount-t2.amount))
-    console.log(txns.sort((t1,t2) => t1.amount-t2.amount))
-    setTxns(txns.sort((t1,t2) => t1.amount-t2.amount))
-    console.log(txns)
+    //console.log('hi');
+    setTxnsCopy([...txnsCopy].sort((t1,t2) => t1.amount-t2.amount))
+    //console.log(txns.sort((t1,t2) => t1.amount-t2.amount))
+    setTxns([...txns].sort((t1,t2) => t1.amount-t2.amount))
+    //console.log(txns)
   }
 
   return (
@@ -61,7 +62,7 @@ export default function TransactionTable(props) {
           <tbody>
             {txns.map((t, i) => {
               return (
-                <tr key={t.description}>
+                <tr key={t.key}>
                   {/*fix key later*/}
                   <td>{t.date}</td>
                   <td>{t.description}</td>
